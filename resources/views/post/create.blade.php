@@ -4,7 +4,7 @@
           投稿の新規作成
       </h2>
       @if(session('message'))
-          {{session('message')}}
+          <x-message :message="session('message')" />
       @endif
   </x-slot>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
