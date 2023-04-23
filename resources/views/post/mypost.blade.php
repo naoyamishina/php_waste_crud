@@ -4,7 +4,7 @@
             自分の投稿一覧
         </h2>
         <x-message :message="session('message')" />
-        <a href="{{route('post.create')}}"><button class="font-semibold text-lg text-white leading-tight bg-teal-700 p-4 rounded-md my-4">新規作成</button></a>
+        <a href="{{route('post.create')}}"><button class="font-semibold text-lg text-white leading-tight bg-green-700 p-4 rounded-md my-4">新規作成</button></a>
     </x-slot>
 
     <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,6 +40,16 @@
                             </h1>
                             <hr class="w-full">
                             <p class="mt-4 py-4 whitespace-pre-line">￥{{$post->money}}</p>
+                            @if (Auth::user()->id == $post->user->id)
+                                <div class="flex justify-end mt-4 mb-3">
+                                    <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-green-700 float-right">編集</x-primary-button></a>
+                                    <form method="post" action="{{route('post.destroy', $post)}}">
+                                    @csrf
+                                    @method('delete')
+                                        <x-primary-button class="bg-red-700 float-right ml-4" onClick="return confirm('本当に削除しますか？');">削除</x-primary-button>
+                                    </form>
+                                </div>
+                            @endif
                             <div class="text-sm font-semibold flex flex-row-reverse">
                                 <p>{{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                             </div>

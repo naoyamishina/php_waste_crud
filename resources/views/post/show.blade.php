@@ -22,7 +22,7 @@
 
                     @if (Auth::user()->id == $post->user->id)
                         <div class="flex justify-end mt-4">
-                            <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-teal-700 float-right">編集</x-primary-button></a>
+                            <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-green-700 float-right">編集</x-primary-button></a>
                             <form method="post" action="{{route('post.destroy', $post)}}">
                             @csrf
                             @method('delete')
