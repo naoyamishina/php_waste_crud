@@ -7,6 +7,22 @@
         <a href="{{route('post.create')}}"><button class="font-semibold text-lg text-white leading-tight bg-teal-700 p-4 rounded-md my-4">新規作成</button></a>
     </x-slot>
 
+    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <form method="GET" action="{{ route('post.mypost') }}">
+            <div class="md:flex items-center mt-8">
+                <div class="flex">
+                    <input type="search" class="w-auto py-2 placeholder-gray-400 border border-gray-300 rounded-md" placeholder="最小金額を入力" name="keyword" value="@if (isset($keyword)) {{ $keyword }} @endif">
+                    <button class="bg-gray-300 mx-4 p-2 rounded-md" type="submit">検索</button>
+                    <button class="bg-gray-300 p-2 rounded-md">
+                        <a href="{{ route('post.index') }}" class="">
+                            クリア
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     {{-- 投稿一覧表示用のコード --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if (count($posts) == 0)

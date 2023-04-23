@@ -113,9 +113,17 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('message', '投稿を削除しました');
     }
 
-    public function mypost() {
+    public function mypost(Request $request) {
+        $keyword = $request->input('keyword');
+        $query = Post::query();
+
+        // もし検索フォームにキーワードが入力されたら
+        if(!empty($keyword)) {
+            $query->where('money', '>=', $keyword);
+        }
+
         $user=auth()->user()->id;
-        $posts=Post::where('user_id', $user)->orderBy('created_at', 'desc')->get();
-        return view('post.mypost', compact('posts'));
+        $posts = $query->where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        return view('post.mypost', compact('posts', 'user'));
     }
 }
