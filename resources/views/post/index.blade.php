@@ -24,7 +24,7 @@
                                 <a href="{{route('post.show', $post)}}">{{ $post->title }}</a>
                             </h1>
                             <hr class="w-full">
-                            <p class="mt-4 text-gray-600 py-4">{{ $post->body }}</p>
+                            <p class="mt-4 py-4 whitespace-pre-line">￥{{$post->money}}</p>
                             <div class="text-sm font-semibold flex flex-row-reverse">
                                 <p>{{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                             </div>

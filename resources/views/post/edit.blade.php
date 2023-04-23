@@ -47,7 +47,7 @@
                 </div>
 
                 <x-primary-button class="mt-4">
-                    送信する
+                    更新する
                 </x-primary-button>
                 
             </form>
