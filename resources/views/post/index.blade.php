@@ -12,7 +12,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if (count($posts) == 0)
                 <p class="mt-4">
-                まだ投稿がありません。
+                まだ投稿はありません。
                 </p>
         @else
         @foreach ($posts as $post)
