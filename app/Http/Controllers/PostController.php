@@ -10,9 +10,17 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts=Post::orderBy('created_at','desc')->get();
+        $keyword = $request->input('keyword');
+        $query = Post::query();
+
+        // もし検索フォームにキーワードが入力されたら
+        if(!empty($keyword)) {
+            $query->where('money', '>=', $keyword);
+        }
+        $posts = $query->orderBy('created_at', 'desc')->get();
+
         $user=auth()->user();
         return view('post.index', compact('posts', 'user'));
     }
