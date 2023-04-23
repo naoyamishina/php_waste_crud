@@ -42,7 +42,7 @@ class PostController extends Controller
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
             'image'=>'image|max:1024',
-            'money'=>'integer|required'
+            'money'=>'integer|required|min:0'
         ]);
         $post=new Post();
         $post->title=$request->title;
@@ -57,7 +57,7 @@ class PostController extends Controller
             $post->image = $name;
         }
         $post->save();
-        return redirect()->route('post.create')->with('message', '投稿を作成しました');
+        return redirect()->route('post.index')->with('message', '投稿を作成しました');
     }
 
     /**
@@ -85,7 +85,7 @@ class PostController extends Controller
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
             'image'=>'image|max:1024',
-            'money'=>'required'
+            'money'=>'integer|required|min:0'
         ]);
 
         $post->title=$inputs['title'];
