@@ -33,10 +33,12 @@ class PostController extends Controller
         $inputs=$request->validate([
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
-            'image'=>'image|max:1024'
+            'image'=>'image|max:1024',
+            'money'=>'integer|required'
         ]);
         $post=new Post();
         $post->title=$request->title;
+        $post->money=$request->money;
         $post->body=$request->body;
         $post->user_id=auth()->user()->id;
         if (request('image')){
@@ -74,11 +76,13 @@ class PostController extends Controller
         $inputs=$request->validate([
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
-            'image'=>'image|max:1024'
+            'image'=>'image|max:1024',
+            'money'=>'required'
         ]);
 
         $post->title=$inputs['title'];
         $post->body=$inputs['body'];
+        $post->money=$request->money;
                 
         if(request('image')){
             $original=request()->file('image')->getClientOriginalName();

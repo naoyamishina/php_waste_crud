@@ -13,6 +13,7 @@ class Post extends Model
         'body',
         'user_id',
         'image',
+        'money'
     ];
 
     public function user() {
