@@ -5,7 +5,7 @@
             <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden ">
                 <h1 class="my-4 text-3xl md:text-5xl text-green-800 font-bold leading-tight text-center md:text-left slide-in-bottom-h1">「実質無料」自慢</h1>
                 <p class="leading-normal text-base md:text-2xl mb-8 text-center md:text-left slide-in-bottom-subtitle">
-                    通常の金銭感覚と離れたお金の使い方をしたり、お金では計れない価値を感じた時の思い出を共有しよう！
+                    お金では計れない思い出を自慢しよう！
                 </p>
                 <div class="flex w-full justify-center md:justify-start pb-8 lg:pb-0 fade-in ">
                     {{-- ボタン設定 --}}

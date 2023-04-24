@@ -41,7 +41,7 @@
                             <hr class="w-full">
                             <p class="mt-4 py-4 whitespace-pre-line">￥{{$post->money}}</p>
                             @if (Auth::user()->id == $post->user->id)
-                                <div class="flex justify-end mt-4 mb-3">
+                                <div class="flex justify-end mt-1 mb-3">
                                     <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-green-700 float-right">編集</x-primary-button></a>
                                     <form method="post" action="{{route('post.destroy', $post)}}">
                                     @csrf
