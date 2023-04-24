@@ -22,6 +22,7 @@
             </div>
         </form>
     </div>
+    
     {{-- 投稿一覧表示用のコード --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if (count($posts) == 0)
