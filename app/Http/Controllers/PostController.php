@@ -10,9 +10,17 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts=Post::orderBy('created_at','desc')->get();
+        $keyword = $request->input('keyword');
+        $query = Post::query();
+
+        // もし検索フォームにキーワードが入力されたら
+        if(!empty($keyword)) {
+            $query->where('money', '>=', $keyword);
+        }
+        $posts = $query->orderBy('created_at', 'desc')->get();
+
         $user=auth()->user();
         return view('post.index', compact('posts', 'user'));
     }
@@ -34,7 +42,7 @@ class PostController extends Controller
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
             'image'=>'image|max:1024',
-            'money'=>'integer|required'
+            'money'=>'integer|required|min:0'
         ]);
         $post=new Post();
         $post->title=$request->title;
@@ -49,7 +57,7 @@ class PostController extends Controller
             $post->image = $name;
         }
         $post->save();
-        return redirect()->route('post.create')->with('message', '投稿を作成しました');
+        return redirect()->route('post.index')->with('message', '投稿を作成しました');
     }
 
     /**
@@ -65,6 +73,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('post.edit', compact('post'));
     }
 
@@ -77,7 +86,7 @@ class PostController extends Controller
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
             'image'=>'image|max:1024',
-            'money'=>'required'
+            'money'=>'integer|required|min:0'
         ]);
 
         $post->title=$inputs['title'];
@@ -101,13 +110,22 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
         $post->delete();
         return redirect()->route('post.index')->with('message', '投稿を削除しました');
     }
 
-    public function mypost() {
+    public function mypost(Request $request) {
+        $keyword = $request->input('keyword');
+        $query = Post::query();
+
+        // もし検索フォームにキーワードが入力されたら
+        if(!empty($keyword)) {
+            $query->where('money', '>=', $keyword);
+        }
+
         $user=auth()->user()->id;
-        $posts=Post::where('user_id', $user)->orderBy('created_at', 'desc')->get();
-        return view('post.mypost', compact('posts'));
+        $posts = $query->where('user_id', $user)->orderBy('created_at', 'desc')->get();
+        return view('post.mypost', compact('posts', 'user'));
     }
 }

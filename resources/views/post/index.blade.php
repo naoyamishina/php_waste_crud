@@ -1,13 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            投稿の一覧
+            投稿一覧
         </h2>
-
         <x-message :message="session('message')" />
-
+        <a href="{{route('post.create')}}"><button class="font-semibold text-lg text-white leading-tight bg-green-700 p-4 rounded-md my-4">新規作成</button></a>
     </x-slot>
 
+    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <form method="GET" action="{{ route('post.index') }}">
+            <div class="md:flex items-center mt-8">
+                <div class="flex">
+                    <input type="search" class="w-auto py-2 placeholder-gray-400 border border-gray-300 rounded-md" placeholder="最小金額を入力" name="keyword" value="@if (isset($keyword)) {{ $keyword }} @endif">
+                    <button class="bg-gray-300 mx-4 p-2 rounded-md" type="submit">検索</button>
+                    <button class="bg-gray-300 p-2 rounded-md">
+                        <a href="{{ route('post.index') }}" class="">
+                            クリア
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
     {{-- 投稿一覧表示用のコード --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if (count($posts) == 0)
@@ -25,6 +39,16 @@
                             </h1>
                             <hr class="w-full">
                             <p class="mt-4 py-4 whitespace-pre-line">￥{{$post->money}}</p>
+                            @if (Auth::user()->id == $post->user->id)
+                                <div class="flex justify-end mt-1 mb-3">
+                                    <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-green-700 float-right">編集</x-primary-button></a>
+                                    <form method="post" action="{{route('post.destroy', $post)}}">
+                                    @csrf
+                                    @method('delete')
+                                        <x-primary-button class="bg-red-700 float-right ml-4" onClick="return confirm('本当に削除しますか？');">削除</x-primary-button>
+                                    </form>
+                                </div>
+                            @endif
                             <div class="text-sm font-semibold flex flex-row-reverse">
                                 <p>{{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                             </div>

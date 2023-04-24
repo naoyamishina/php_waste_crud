@@ -15,9 +15,6 @@
                     <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
                         HOME
                     </x-nav-link>
-                    <x-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
-                        新規作成
-                    </x-nav-link>
                     <x-nav-link :href="route('post.mypost')" :active="request()->routeIs('post.mypost')">
                         自分の投稿
                     </x-nav-link>
@@ -75,9 +72,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
                 HOME
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
-                新規作成
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('post.mypost')" :active="request()->routeIs('post.mypost')">
                 自分の投稿
