@@ -59,7 +59,7 @@ class PostController extends Controller
             } else {
                 // 本番環境
                 $image = $request->file('image');
-                $path = Storage::disk('s3')->putFile('/', $image, 'public');
+                $path = Storage::disk('s3')->putFile('/', $image);
                 $post->image = $path;
             }
         }
