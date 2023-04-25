@@ -33,12 +33,14 @@
                     <textarea name="body" class="w-auto py-2 border border-gray-300 rounded-md" id="body" cols="30" rows="10">{{old('body', $post->body)}}</textarea>
                 </div>
 
-                <div class="w-full flex flex-col">
+                <div class="w-full flex flex-col mt-4">
                     @if($post->image)
-                        <div>
-                            (画像ファイル：{{$post->image}})
-                        </div>
-                        <img src="{{ asset('storage/images/'.$post->image)}}" class="mx-auto" style="height:300px;">
+                        @if (App::environment('local'))
+                            <img src="/{{ $image }}" class="mx-auto" style="height:300px;">
+                        @else
+                            // 本番環境
+                            <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto" style="height:300px;">
+                        @endif
                     @endif
                     <label for="image" class="font-semibold leading-none mt-4">画像 （1MBまで）</label>
                     <div>

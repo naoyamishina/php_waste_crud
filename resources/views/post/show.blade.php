@@ -34,7 +34,12 @@
                         <p class="mt-4 text-gray-600 py-4 whitespace-pre-line">{{$post->body}}</p>
                         <div class="mt-4">
                             @if($post->image)
-                                <img src="{{ asset('storage/images/'.$post->image)}}" class="mx-auto" style="height:300px;">
+                                @if (App::environment('local'))
+                                    <img src="/{{ $image }}" class="mx-auto" style="height:300px;">
+                                @else
+                                    // 本番環境
+                                    <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto" style="height:300px;">
+                                @endif
                             @endif
                         </div>
                         <div class="text-sm font-semibold flex flex-row-reverse">
