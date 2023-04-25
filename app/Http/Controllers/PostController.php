@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -50,11 +52,16 @@ class PostController extends Controller
         $post->body=$request->body;
         $post->user_id=auth()->user()->id;
         if (request('image')){
-            $original = request()->file('image')->getClientOriginalName();
-            // 日時追加、同じ画像を区別するため
-            $name = date('Ymd_His').'_'.$original;
-            request()->file('image')->move('storage/images', $name);
-            $post->image = $name;
+            if (app()->isLocal()) {
+                // ローカル環境
+                $time = date("Ymdhis");
+                $post->image = $request->image->storeAs('public/images', $time.'_'.Auth::user()->id. '.jpg');
+            } else {
+                // 本番環境
+                $image = $request->file('image');
+                $path = Storage::disk('s3')->putFile('/', $image, 'public');
+                $post->image = $path;
+            }
         }
         $post->save();
         return redirect()->route('post.index')->with('message', '投稿を作成しました');
@@ -65,7 +72,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post.show', compact('post'));
+        return view('post.show', [
+            'post' => $post,
+            'image' => str_replace('public/', 'storage/', $post->image) // 変更
+        ],
+        compact('post'));
     }
 
     /**
@@ -74,7 +85,11 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $this->authorize('update', $post);
-        return view('post.edit', compact('post'));
+        return view('post.edit', [
+            'post' => $post,
+            'image' => str_replace('public/', 'storage/', $post->image) // 変更
+        ],
+        compact('post'));
     }
 
     /**
@@ -94,10 +109,16 @@ class PostController extends Controller
         $post->money=$request->money;
                 
         if(request('image')){
-            $original=request()->file('image')->getClientOriginalName();
-            $name=date('Ymd_His').'_'.$original;
-            $file=request()->file('image')->move('storage/images', $name);
-            $post->image=$name;
+            if (app()->isLocal()) {
+                // ローカル環境
+                $time = date("Ymdhis");
+                $post->image = $request->image->storeAs('public/images', $time.'_'.Auth::user()->id. '.jpg');
+            } else {
+                // 本番環境
+                $image = $request->file('image');
+                $path = Storage::disk('s3')->putFile('/', $image, 'public');
+                $post->image = $path;
+            }
         }
 
         $post->save();
