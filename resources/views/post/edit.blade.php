@@ -38,7 +38,6 @@
                         @if (App::environment('local'))
                             <img src="/{{ $image }}" class="mx-auto" style="height:300px;">
                         @else
-                            // 本番環境
                             <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto" style="height:300px;">
                         @endif
                     @endif
