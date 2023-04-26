@@ -10,8 +10,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mx-4 sm:p-8">
-            <div class="px-10 mt-4">
-
+            <div class="px-2 mt-4">
                 <div class="bg-white w-full  rounded-2xl px-10 py-8 shadow-lg hover:shadow-2xl transition duration-500">
                     <div class="mt-4">
                     <h1 class="text-lg text-gray-700 font-semibold">
@@ -37,7 +36,7 @@
                                 @if (App::environment('local'))
                                     <img src="/{{ $image }}" class="mx-auto object-contain" style="height:300px;">
                                 @else
-                                    <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto" style="height:300px;">
+                                    <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto object-contain" style="height:300px;">
                                 @endif
                             @endif
                         </div>
