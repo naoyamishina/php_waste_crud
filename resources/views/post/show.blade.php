@@ -30,8 +30,8 @@
                             </form>
                         </div>
                     @endif
-                        <p class="mt-4 py-4 whitespace-pre-line">￥{{$post->money}}</p>
-                        <p class="mt-4 text-gray-600 py-4 whitespace-pre-line">{{$post->body}}</p>
+                        <p class="mt-4 py-4 whitespace-pre-line">￥{{number_format($post->money)}} → 実質無料</p>
+                        <p class="mt-4 text-gray-600 whitespace-pre-line">{{$post->body}}</p>
                         <div class="mt-4">
                             @if($post->image)
                                 @if (App::environment('local'))
