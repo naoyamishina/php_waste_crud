@@ -38,7 +38,7 @@
                         @if (App::environment('local'))
                             <img src="/{{ $image }}" class="mx-auto" style="height:300px;">
                         @else
-                            <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto" style="height:300px;">
+                            <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto object-contain" style="height:300px;">
                         @endif
                     @endif
                     <label for="image" class="font-semibold leading-none mt-4">画像 （1MBまで）</label>

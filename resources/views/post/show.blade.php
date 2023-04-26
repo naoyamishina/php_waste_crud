@@ -35,7 +35,7 @@
                         <div class="mt-4">
                             @if($post->image)
                                 @if (App::environment('local'))
-                                    <img src="/{{ $image }}" class="mx-auto" style="height:300px;">
+                                    <img src="/{{ $image }}" class="mx-auto object-contain" style="height:300px;">
                                 @else
                                     <img src="https://phpwastecrud.s3.ap-northeast-3.amazonaws.com/{{$image}}" class="mx-auto" style="height:300px;">
                                 @endif
