@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\Paginator;
 
 class PostController extends Controller
 {
@@ -21,7 +22,7 @@ class PostController extends Controller
         if(!empty($keyword)) {
             $query->where('money', '>=', $keyword);
         }
-        $posts = $query->with('user')->orderBy('created_at', 'desc')->get();
+        $posts = $query->with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         $user=auth()->user();
         return view('post.index', compact('posts', 'user'));
@@ -146,7 +147,7 @@ class PostController extends Controller
         }
 
         $user=auth()->user()->id;
-        $posts = $query->where('user_id', $user)->with('user')->orderBy('created_at', 'desc')->get();
+        $posts = $query->where('user_id', $user)->with('user')->orderBy('created_at', 'desc')->paginate(10);
         return view('post.mypost', compact('posts', 'user'));
     }
 }
