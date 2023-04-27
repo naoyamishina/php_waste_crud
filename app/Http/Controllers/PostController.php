@@ -75,7 +75,18 @@ class PostController extends Controller
                 $post->image = $imagePath;
             } else {
                 // 本番環境
-                $image = $request->file('image');
+                $image = InterventionImage::make($request->image);
+                $image->orientate();
+                $image->resize(
+                    400,
+                    500,
+                    function ($constraint) {
+                        // 縦横比を保持したままにする
+                        $constraint->aspectRatio();
+                        // 小さい画像は大きくしない
+                        $constraint->upsize();
+                    }
+                );
                 $path = Storage::disk('s3')->putFile('/', $image);
                 $post->image = $path;
             }
