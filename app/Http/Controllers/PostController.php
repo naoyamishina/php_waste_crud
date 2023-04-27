@@ -87,7 +87,7 @@ class PostController extends Controller
                         $constraint->upsize();
                     }
                 );
-                $path = Storage::disk('s3')->putFile('/', $image);
+                $path = Storage::disk('s3')->putFile('/', $image->encode());
                 $post->image = $path;
             }
         }
