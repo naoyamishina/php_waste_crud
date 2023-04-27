@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\Paginator;
+use InterventionImage;
 
 class PostController extends Controller
 {
@@ -44,7 +45,7 @@ class PostController extends Controller
         $inputs=$request->validate([
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
-            'image'=>'image|max:1024',
+            'image'=>'image|max:5120',
             'money'=>'integer|required|min:0'
         ]);
         $post=new Post();
@@ -56,7 +57,22 @@ class PostController extends Controller
             if (app()->isLocal()) {
                 // ローカル環境
                 $time = date("Ymdhis");
-                $post->image = $request->image->storeAs('public/images', $time.'_'.Auth::user()->id. '.jpg');
+                $image = InterventionImage::make($request->image);
+                $image->orientate();
+                $image->resize(
+                    400,
+                    500,
+                    function ($constraint) {
+                        // 縦横比を保持したままにする
+                        $constraint->aspectRatio();
+                        // 小さい画像は大きくしない
+                        $constraint->upsize();
+                    }
+                );
+                $filePath = storage_path('app/public/images');
+                $image->save($filePath.'/'.$time.'_'.Auth::user()->id.'.png');
+                $imagePath = 'storage/images/'.$time.'_'.Auth::user()->id.'.png';
+                $post->image = $imagePath;
             } else {
                 // 本番環境
                 $image = $request->file('image');
@@ -101,7 +117,7 @@ class PostController extends Controller
         $inputs=$request->validate([
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
-            'image'=>'image|max:1024',
+            'image'=>'image|max:5120',
             'money'=>'integer|required|min:0'
         ]);
 
@@ -112,8 +128,24 @@ class PostController extends Controller
         if(request('image')){
             if (app()->isLocal()) {
                 // ローカル環境
+                // ローカル環境
                 $time = date("Ymdhis");
-                $post->image = $request->image->storeAs('public/images', $time.'_'.Auth::user()->id. '.jpg');
+                $image = InterventionImage::make($request->image);
+                $image->orientate();
+                $image->resize(
+                    400,
+                    500,
+                    function ($constraint) {
+                        // 縦横比を保持したままにする
+                        $constraint->aspectRatio();
+                        // 小さい画像は大きくしない
+                        $constraint->upsize();
+                    }
+                );
+                $filePath = storage_path('app/public/images');
+                $image->save($filePath.'/'.$time.'_'.Auth::user()->id.'.png');
+                $imagePath = 'storage/images/'.$time.'_'.Auth::user()->id.'.png';
+                $post->image = $imagePath;
             } else {
                 // 本番環境
                 $image = $request->file('image');
