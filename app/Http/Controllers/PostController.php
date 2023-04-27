@@ -45,7 +45,7 @@ class PostController extends Controller
         $inputs=$request->validate([
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
-            'image'=>'image|max:5120',
+            'image'=>'image|max:1024',
             'money'=>'integer|required|min:0'
         ]);
         $post=new Post();
@@ -75,19 +75,8 @@ class PostController extends Controller
                 $post->image = $imagePath;
             } else {
                 // 本番環境
-                $image = InterventionImage::make($request->image);
-                $image->orientate();
-                $image->resize(
-                    400,
-                    500,
-                    function ($constraint) {
-                        // 縦横比を保持したままにする
-                        $constraint->aspectRatio();
-                        // 小さい画像は大きくしない
-                        $constraint->upsize();
-                    }
-                );
-                $path = Storage::disk('s3')->putFile('/', $image->encode());
+                $image = $request->file('image');
+                $path = Storage::disk('s3')->putFile('/', $image);
                 $post->image = $path;
             }
         }
@@ -128,7 +117,7 @@ class PostController extends Controller
         $inputs=$request->validate([
             'title'=>'required|max:255',
             'body'=>'required|max:1000',
-            'image'=>'image|max:5120',
+            'image'=>'image|max:1024',
             'money'=>'integer|required|min:0'
         ]);
 
