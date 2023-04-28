@@ -40,6 +40,20 @@
                                 @endif
                             @endif
                         </div>
+                        <div class="my-3">
+                            @if (!Auth::user()->is_nice($post->id))
+                            <form action="{{ route('nice.store', $post) }}" method="post">
+                                @csrf
+                                <x-primary-button class="bg-gray-100 mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
+                            </form>
+                            @else
+                            <form action="{{ route('nice.destroy', $post) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <x-primary-button class="bg-red-700 mt-2" onclick="unnice({{$post->id}})">いいね解除 {{$post->nices->count()}}</x-primary-button>
+                            </form>
+                            @endif
+                        </div>
                         <div class="text-sm font-semibold flex flex-row-reverse">
                             <p> {{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                         </div>
