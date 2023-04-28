@@ -23,10 +23,9 @@ class PostController extends Controller
         if(!empty($keyword)) {
             $query->where('money', '>=', $keyword);
         }
-        $posts = $query->with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->with('user', 'comments', 'nices', 'nices')->orderBy('created_at', 'desc')->paginate(10);
 
-        $user=auth()->user();
-        return view('post.index', compact('posts', 'user'));
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -171,16 +170,12 @@ class PostController extends Controller
     }
 
     public function mypost(Request $request) {
-        $keyword = $request->input('keyword');
-        $query = Post::query();
+        $posts = \Auth::user()->posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        return view('post.mypost', compact('posts'));
+    }
 
-        // もし検索フォームにキーワードが入力されたら
-        if(!empty($keyword)) {
-            $query->where('money', '>=', $keyword);
-        }
-
-        $user=auth()->user()->id;
-        $posts = $query->where('user_id', $user)->with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
-        return view('post.mypost', compact('posts', 'user'));
+    public function nice_posts(Request $request) {
+        $posts = \Auth::user()->nice_posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        return view('post.nice_posts', compact('posts'));
     }
 }

@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NiceController;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +32,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost')->middleware('auth');
+Route::post('/post/{post}/nice', [NiceController::class, 'store'])->name('nice.store')->middleware('auth');
+Route::delete('/post/{post}/unnice', [NiceController::class, 'destroy'])->name('nice.destroy')->middleware('auth');
+Route::get('/post/nices', [PostController::class, 'nice_posts'])->name('post.nice_posts')->middleware('auth');
 Route::resource('post', PostController::class)->middleware('auth');
 
-Route::post('post/comment/store', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');;
+Route::post('post/comment/store', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
 
 require __DIR__.'/auth.php';

@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('post.mypost')" :active="request()->routeIs('post.mypost')">
                         自分の投稿
                     </x-nav-link>
+                    <x-nav-link :href="route('post.nice_posts')" :active="request()->routeIs('post.nice_posts')">
+                        いいね一覧
+                    </x-nav-link>
                 </div>
             </div>
 
