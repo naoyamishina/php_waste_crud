@@ -15,7 +15,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="{{ asset('js/nice.js') }}"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <link rel="stylesheet" href="{{ asset('css/forum.css') }}">
+        <link rel="stylesheet" href="{{ asset('CSS/forum.css') }}">
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
