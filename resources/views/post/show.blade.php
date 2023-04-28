@@ -42,16 +42,9 @@
                         </div>
                         <div class="my-3">
                             @if (!Auth::user()->is_nice($post->id))
-                            <form action="{{ route('nice.store', $post) }}" method="post">
-                                @csrf
                                 <x-primary-button class="bg-gray-100 mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
-                            </form>
                             @else
-                            <form action="{{ route('nice.destroy', $post) }}" method="post">
-                                @csrf
-                                @method('delete')
                                 <x-primary-button class="bg-red-700 mt-2" onclick="unnice({{$post->id}})">いいね解除 {{$post->nices->count()}}</x-primary-button>
-                            </form>
                             @endif
                         </div>
                         <div class="text-sm font-semibold flex flex-row-reverse">
@@ -73,7 +66,7 @@
                     <form method="post" action="{{route('comment.store')}}">
                         @csrf
                         <input type="hidden" name='post_id' value="{{$post->id}}">
-                        <textarea name="body" class="bg-white w-full rounded-2xl px-4 mt-4 py-4 shadow-lg hover:shadow-2xl transition duration-500" id="body" cols="30" rows="3" placeholder="コメントを入力してください">{{old('body')}}</textarea>
+                        <textarea name="body" class="w-full rounded-2xl px-4 mt-4 py-4 shadow-lg hover:shadow-2xl transition duration-500" id="body" cols="30" rows="3" placeholder="コメントを入力してください">{{old('body')}}</textarea>
                         <x-primary-button class="float-right mr-4 mb-12">コメントする</x-primary-button>
                     </form>
                 </div>

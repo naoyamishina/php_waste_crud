@@ -79,6 +79,9 @@
             <x-responsive-nav-link :href="route('post.mypost')" :active="request()->routeIs('post.mypost')">
                 自分の投稿
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('post.nice_posts')" :active="request()->routeIs('post.nice_posts')">
+                いいね一覧
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
