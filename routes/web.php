@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost')->middleware('auth');;
-Route::resource('post', PostController::class)->middleware('auth');;
+Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost')->middleware('auth');
+Route::resource('post', PostController::class)->middleware('auth');
+
+Route::post('post/comment/store', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');;
 
 require __DIR__.'/auth.php';

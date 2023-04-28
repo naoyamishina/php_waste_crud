@@ -23,7 +23,7 @@ class PostController extends Controller
         if(!empty($keyword)) {
             $query->where('money', '>=', $keyword);
         }
-        $posts = $query->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
 
         $user=auth()->user();
         return view('post.index', compact('posts', 'user'));
@@ -165,6 +165,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
+        $post->comments()->delete();
         $post->delete();
         return redirect()->route('post.index')->with('message', '投稿を削除しました');
     }
@@ -179,7 +180,7 @@ class PostController extends Controller
         }
 
         $user=auth()->user()->id;
-        $posts = $query->where('user_id', $user)->with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->where('user_id', $user)->with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
         return view('post.mypost', compact('posts', 'user'));
     }
 }

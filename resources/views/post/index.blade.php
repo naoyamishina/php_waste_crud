@@ -41,7 +41,7 @@
                                 </h1>
                                 <hr class="w-full">
                                 <p class="mt-4 py-4 whitespace-pre-line">￥{{number_format($post->money)}} → 実質無料</p>
-                                <p class="mt-2 whitespace-pre-line">{{$post->body}}</p>
+                                <p class="mt-2 whitespace-pre-line">{{Str::limit($post->body, 100, '...')}} </p>
                                 @if (Auth::user()->id == $post->user->id)
                                     <div class="flex justify-end mt-1 mb-3">
                                         <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-green-700 float-right">編集</x-primary-button></a>
@@ -55,6 +55,12 @@
                                 <div class="text-sm font-semibold flex flex-row-reverse">
                                     <p>{{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                                 </div>
+                                <hr class="w-full mb-2">
+                                <a href="{{route('post.show', $post)}}" style="color:white;">
+                                    <span class="badge">
+                                        コメント {{$post->comments->count()}}件
+                                    </span>
+                                </a> 
                             </div>
                         </div>
                     </div>

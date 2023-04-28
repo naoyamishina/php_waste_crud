@@ -41,8 +41,5 @@ https://waste-crud.herokuapp.com/
  - 自分の投稿一覧表示
  - プロフィール編集
 
-## ■画面遷移図
-
-
 ## ■ER図
 
