@@ -10,10 +10,6 @@
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
-
-            @if(empty($errors->first('image')))
-                <li>画像ファイルがあれば、再度、選択してください。</li>
-            @endif
         </ul>
     </div>
 @endif

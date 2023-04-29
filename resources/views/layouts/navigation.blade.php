@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('post.nice_posts')" :active="request()->routeIs('post.nice_posts')">
                         いいね一覧
                     </x-nav-link>
+                    <x-nav-link :href="route('post.ranking')" :active="request()->routeIs('post.ranking')">
+                        いいねランキング
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -81,6 +84,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('post.nice_posts')" :active="request()->routeIs('post.nice_posts')">
                 いいね一覧
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('post.ranking')" :active="request()->routeIs('post.ranking')">
+                いいねランキング
             </x-responsive-nav-link>
         </div>
 
