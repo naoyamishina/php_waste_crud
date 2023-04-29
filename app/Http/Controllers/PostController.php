@@ -169,13 +169,18 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('message', '投稿を削除しました');
     }
 
-    public function mypost(Request $request) {
+    public function mypost() {
         $posts = \Auth::user()->posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
         return view('post.mypost', compact('posts'));
     }
 
-    public function nice_posts(Request $request) {
+    public function nice_posts() {
         $posts = \Auth::user()->nice_posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
         return view('post.nice_posts', compact('posts'));
+    }
+
+    public function ranking() {
+        $posts = Post::withCount('nices')->orderBy('nices_count', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        return view('post.ranking', compact('posts'));
     }
 }
