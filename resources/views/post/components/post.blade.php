@@ -19,11 +19,11 @@
                             </form>
                         </div>
                     @endif
-                    <div class="text-sm font-semibold flex flex-row-reverse">
+                    <div class="text-sm font-semibold flex flex-row-reverse mt-3">
                         <p>{{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                     </div>
                     <hr class="w-full mb-2">
-                    <div class="text-sm font-semibold flex flex-row-reverse">
+                    <div class="text-sm font-semibold flex flex-row-reverse mt-3">
                         <a href="{{route('post.show', $post)}}" style="color:white;">
                             <span class="badge float-right ml-2">
                                 コメント {{$post->comments->count()}}件
@@ -39,9 +39,9 @@
                     </div>
                     <div>
                         @if (!Auth::user()->is_nice($post->id))
-                            <x-primary-button class="bg-gray-700 mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
+                            <x-primary-button class="unnice_badge mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
                         @else
-                            <x-primary-button class="bg-red-700 mt-2" onclick="unnice({{$post->id}})">いいね解除 {{$post->nices->count()}}</x-primary-button>
+                            <x-primary-button class="nice_badge mt-2" onclick="unnice({{$post->id}})">いいね解除 {{$post->nices->count()}}</x-primary-button>
                         </form>
                         @endif
                     </div>
