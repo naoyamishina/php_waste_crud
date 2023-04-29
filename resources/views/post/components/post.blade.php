@@ -23,18 +23,20 @@
                         <p>{{ $post->user->name }} • {{$post->created_at->format('Y年m月d日')}}</p>
                     </div>
                     <hr class="w-full mb-2">
-                    <a href="{{route('post.show', $post)}}" style="color:white;">
-                        <span class="badge">
-                            コメント {{$post->comments->count()}}件
-                        </span>
-                    </a>
-                    @if($post->image)
+                    <div class="text-sm font-semibold flex flex-row-reverse">
                         <a href="{{route('post.show', $post)}}" style="color:white;">
-                            <span class="badge">
-                                写真あり
+                            <span class="badge float-right ml-2">
+                                コメント {{$post->comments->count()}}件
                             </span>
                         </a>
-                    @endif
+                        @if($post->image)
+                            <a href="{{route('post.show', $post)}}" style="color:white;">
+                                <span class="badge float-right">
+                                    写真あり
+                                </span>
+                            </a>
+                        @endif
+                    </div>
                     <div>
                         @if (!Auth::user()->is_nice($post->id))
                             <x-primary-button class="bg-gray-700 mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
