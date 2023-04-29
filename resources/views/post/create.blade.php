@@ -15,7 +15,7 @@
                 @csrf
                     <div class="md:flex items-center mt-8">
                         <div class="w-full flex flex-col">
-                        <label for="title" class="font-semibold leading-none mt-4 mb-3">件名</label>
+                        <label for="title" class="font-semibold leading-none mt-4 mb-3">タイトル</label>
                         <input type="text" name="title" class="w-auto py-2 placeholder-gray-400 border border-gray-300 rounded-md" id="title" value="{{old('title')}}" placeholder="(必須)">
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                     </div>
     
                     <div class="w-full flex flex-col">
-                        <label for="body" class="font-semibold leading-none mt-4 mb-3">思い出</label>
+                        <label for="body" class="font-semibold leading-none mt-4 mb-3">本文 (思い出)</label>
                         <textarea name="body" class="w-auto py-2 border border-gray-300 rounded-md placeholder-gray-400" id="body" cols="30" rows="10" placeholder="(必須)">{{old('body')}}</textarea>
                     </div>
     

@@ -3,9 +3,8 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             投稿詳細
         </h2>
-
+        <x-validation-errors class="mb-4" :errors="$errors" />
         <x-message :message="session('message')" />
-
     </x-slot>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

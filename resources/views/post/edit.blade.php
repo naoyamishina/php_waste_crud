@@ -16,7 +16,7 @@
                 @method('patch')
                 <div class="md:flex items-center mt-8">
                     <div class="w-full flex flex-col">
-                    <label for="body" class="font-semibold leading-none mt-4 mb-3">件名</label>
+                    <label for="body" class="font-semibold leading-none mt-4 mb-3">タイトル</label>
                     <input type="text" name="title" class="w-auto py-2 placeholder-gray-400 border border-gray-300 rounded-md" id="title" value="{{old('title', $post->title)}}" placeholder="(必須)">
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="w-full flex flex-col">
-                    <label for="body" class="font-semibold leading-none mt-4 mb-3">思い出</label>
+                    <label for="body" class="font-semibold leading-none mt-4 mb-3">本文 (思い出)</label>
                     <textarea name="body" class="w-auto py-2 border border-gray-300 rounded-md" id="body" cols="30" rows="10">{{old('body', $post->body)}}</textarea>
                 </div>
 
