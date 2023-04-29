@@ -6,7 +6,7 @@
   font-size: 0.6rem;
   text-align: center;
   white-space: nowrap;
-  background-color: gray;
+  background-color: silver;
 }
 
 .nice_badge {
@@ -18,5 +18,16 @@
   text-align: center;
   white-space: nowrap;
   background-color: red;
+}
+
+.unnice_badge {
+  display: inline-block;
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.6rem;
+  text-align: center;
+  white-space: nowrap;
+  background-color: gray;
 }
 
