@@ -42,4 +42,4 @@ https://waste-crud.herokuapp.com/
  - プロフィール編集
 
 ## ■ER図
-
+[![Image from Gyazo](https://i.gyazo.com/57877d388c56ce8f043958e528d964ed.png)](https://i.gyazo.com/57877d388c56ce8f043958e528d964ed)
