@@ -29,8 +29,8 @@ https://waste-crud.herokuapp.com/
  - 開発環境  
  Laravel sail
  - インフラ  
- Heroku
- MySQL(ClearDB)
+ Heroku  
+ MySQL(ClearDB)  
  S3（画像アップロード先）
 
 ## ■実装機能
