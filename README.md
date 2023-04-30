@@ -2,7 +2,7 @@
 ### 「実質無料」自慢
 [![Image from Gyazo](https://i.gyazo.com/577820f39d978903d8c495119018a6be.png)](https://gyazo.com/577820f39d978903d8c495119018a6be)
 ### ▼サービスURL
-https://waste-crud.herokuapp.com/
+https://www.waste-essentially-free.net/
 
 ## ■概要
 お金では計れない思い出を共有しようというアプリです。  
@@ -23,15 +23,19 @@ https://waste-crud.herokuapp.com/
 
 ## ■使用技術
  - バックエンド  
- PHP(8.2.5), Laravel(10.8.0)
+ PHP(8.1), Laravel(10.8)
  - フロントエンド  
  Tailwind css
  - 開発環境  
  Laravel sail
+ - DB
+ MySQL(8.0)
+ - Webサーバ
+ Apache(2.4)
  - インフラ  
- Heroku  
- MySQL(ClearDB)  
- S3（画像アップロード先）
+ EC2  
+ S3  
+
 
 ## ■実装機能
  - ユーザー登録機能
