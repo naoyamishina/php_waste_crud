@@ -35,6 +35,8 @@ https://www.waste-essentially-free.net/
  - インフラ  
  EC2  
  S3  
+ Route53  
+ AWS Certificate Manager
 
 
 ## ■実装機能
