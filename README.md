@@ -48,6 +48,7 @@ https://www.waste-essentially-free.net/
  - 金額(投稿内容)の検索機能(最低金額を指定し、その金額以上の投稿検索)
  - 自分の投稿一覧表示
  - プロフィール編集
+ - パスワードリセット
 
 ## ■ER図
 [![Image from Gyazo](https://i.gyazo.com/57877d388c56ce8f043958e528d964ed.png)](https://i.gyazo.com/57877d388c56ce8f043958e528d964ed)
