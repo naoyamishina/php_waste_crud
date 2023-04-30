@@ -100,12 +100,17 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $this->authorize('update', $post);
-        return view('post.edit', [
-            'post' => $post,
-            'image' => str_replace('public/', 'storage/', $post->image) // 変更
-        ],
-        compact('post'));
+        $user = Auth::user();
+
+        if ($user->can('update', $post)) {
+            return view('post.edit', [
+                'post' => $post,
+                'image' => str_replace('public/', 'storage/', $post->image) // 変更
+            ],
+            compact('post'));
+        }   else {
+        return redirect()->route('post.index')->with('errormessage', '編集権限がありません');
+        }
     }
 
     /**
