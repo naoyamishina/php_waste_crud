@@ -4,6 +4,7 @@
             投稿一覧
         </h2>
         <x-message :message="session('message')" />
+        <x-errormessage :errormessage="session('errormessage')" />
         <a href="{{route('post.create')}}"><button class="font-semibold text-lg text-white leading-tight bg-green-700 p-4 rounded-md my-4">新規作成</button></a>
     </x-slot>
 
