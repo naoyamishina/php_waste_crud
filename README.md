@@ -28,9 +28,9 @@ https://www.waste-essentially-free.net/
  Tailwind css
  - 開発環境  
  Laravel sail
- - DB
+ - DB   
  MySQL(8.0)
- - Webサーバ
+ - Webサーバ   
  Apache(2.4)
  - インフラ  
  EC2  
@@ -51,4 +51,7 @@ https://www.waste-essentially-free.net/
  - パスワードリセット
 
 ## ■ER図
-[![Image from Gyazo](https://i.gyazo.com/57877d388c56ce8f043958e528d964ed.png)](https://i.gyazo.com/57877d388c56ce8f043958e528d964ed)
+[![Image from Gyazo](https://gyazo.com/8761be6a6bc4510215c76412ad1f1c29.png)](https://gyazo.com/8761be6a6bc4510215c76412ad1f1c29)
+
+## ■インフラ構成図
+[![Image from Gyazo](https://gyazo.com/18dd47231b3b98d62b91a5fc4140b601.png)](https://gyazo.com/18dd47231b3b98d62b91a5fc4140b601)
