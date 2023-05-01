@@ -43,7 +43,7 @@
                             @if (!Auth::user()->is_nice($post->id))
                                 <x-primary-button class="bg-gray-100 mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
                             @else
-                                <x-primary-button class="bg-red-700 mt-2" onclick="unnice({{$post->id}})">いいね解除 {{$post->nices->count()}}</x-primary-button>
+                                <x-primary-button class="bg-red-700 mt-2" onclick="unnice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
                             @endif
                         </div>
                         <div class="text-sm font-semibold flex flex-row-reverse">
