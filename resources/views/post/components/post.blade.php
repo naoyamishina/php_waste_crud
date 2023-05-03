@@ -38,11 +38,16 @@
                         @endif
                     </div>
                     <div>
-                        @if (!Auth::user()->is_nice($post->id))
-                            <x-primary-button class="unnice_badge mt-2" onclick="nice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
+                        @if (!$post->isNicedBy(Auth::user()))
+                            <span class="nices">
+                                <i class="fas fa-thumbs-up mt-3 nice-toggle" data-post-id="{{ $post->id }}"></i>
+                                <span class="nice-counter">{{$post->nices_count}}</span>
+                            </span>
                         @else
-                            <x-primary-button class="nice_badge mt-2" onclick="unnice({{$post->id}})">いいね {{$post->nices->count()}}</x-primary-button>
-                        </form>
+                        <span class="nices">
+                            <i class="fas fa-thumbs-up heart mt-3 nice-toggle niced" data-post-id="{{ $post->id }}"></i>
+                            <span class="nice-counter">{{$post->nices_count}}</span>
+                        </span>
                         @endif
                     </div>
                 </div>
