@@ -28,10 +28,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Post::class, 'nices', 'user_id', 'post_id');
     }
 
-    public function is_nice($postId) {
-        return $this->nices()->where('post_id', $postId)->exists();
-    }
-
     /**
      * The attributes that are mass assignable.
      *

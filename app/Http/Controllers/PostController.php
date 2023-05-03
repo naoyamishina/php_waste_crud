@@ -165,7 +165,7 @@ class PostController extends Controller
     }
 
     public function mypost() {
-        $posts = \Auth::user()->posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = \Auth::user()->posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
         return view('post.mypost', compact('posts'));
     }
 
@@ -191,7 +191,7 @@ class PostController extends Controller
     }
 
     public function nice_posts() {
-        $posts = \Auth::user()->nice_posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = \Auth::user()->nice_posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
         return view('post.nice_posts', compact('posts'));
     }
 
