@@ -87,7 +87,7 @@ class PostController extends Controller
     {
         return view('post.show', [
             'post' => $post,
-            'image' => str_replace('public/', 'storage/', $post->image) // 変更
+            'image' => str_replace('public/', 'storage/', $post->image)
         ],
         compact('post'));
     }
