@@ -24,7 +24,7 @@ class PostController extends Controller
         if(!empty($keyword)) {
             $query->where('money', '>=', $keyword);
         }
-        $posts = $query->with('user', 'comments', 'nices', 'nices')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->with('user', 'comments', 'nices')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('post.index', compact('posts'));
     }
