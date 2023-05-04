@@ -35,7 +35,7 @@ class CommentController extends Controller
             'post_id'=>$request->post_id
         ]);
 
-        return back()->with('message', 'コメントを投稿しました');;
+        return back();
     }
 
     /**
