@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
@@ -26,14 +27,10 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        $inputs=request()->validate([
-            'body'=>'required|max:1000',
-        ]);
-
         $comment=Comment::create([
-            'body'=>$inputs['body'],
+            'body'=>$request['body'],
             'user_id'=>auth()->user()->id,
             'post_id'=>$request->post_id
         ]);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\Paginator;
@@ -23,7 +24,7 @@ class PostController extends Controller
         if(!empty($keyword)) {
             $query->where('money', '>=', $keyword);
         }
-        $posts = $query->with('user', 'comments', 'nices', 'nices')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->with('user', 'comments', 'nices')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('post.index', compact('posts'));
     }
@@ -39,14 +40,8 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $inputs=$request->validate([
-            'title'=>'required|max:255',
-            'body'=>'required|max:1000',
-            'image'=>'image|max:1024',
-            'money'=>'integer|required|min:0'
-        ]);
         $post=new Post();
         $post->title=$request->title;
         $post->money=$request->money;
@@ -116,17 +111,10 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $inputs=$request->validate([
-            'title'=>'required|max:255',
-            'body'=>'required|max:1000',
-            'image'=>'image|max:1024',
-            'money'=>'integer|required|min:0'
-        ]);
-
-        $post->title=$inputs['title'];
-        $post->body=$inputs['body'];
+        $post->title=$request->title;
+        $post->body=$request->body;
         $post->money=$request->money;
                 
         if(request('image')){
