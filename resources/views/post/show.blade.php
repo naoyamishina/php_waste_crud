@@ -65,13 +65,15 @@
                     </div>
                 </div>
                 @endforeach
+                <div id="comment-list"></div>
+                <div id="comment-validation"></div>
 
                 <div class="mt-4 mb-12">
                     <x-validation-errors class="mb-4" :errors="$errors" />
                     <form method="post" action="{{route('comment.store')}}" id="comment_form">
                         @csrf
                         <input type="hidden" name='post_id' value="{{$post->id}}">
-                        <textarea name="body" class="w-full rounded-2xl px-4 mt-4 py-4 shadow-lg hover:shadow-2xl transition duration-500" id="body" cols="30" rows="3" placeholder="コメントを入力してください">{{old('body')}}</textarea>
+                        <textarea name="body" class="w-full rounded-2xl px-4 mt-4 py-4 shadow-lg hover:shadow-2xl transition duration-500" id="comment-body" cols="30" rows="3" placeholder="コメントを入力してください">{{old('body')}}</textarea>
                         <x-primary-button class="float-right mr-4 mb-12" id="comment_submit">コメントする</x-primary-button>
                     </form>
                 </div>
