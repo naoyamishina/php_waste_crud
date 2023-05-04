@@ -28,4 +28,8 @@ class Post extends Model
         return $this->hasMany(Nice::class);
     }
 
+    //いいねされているかを判定するメソッド。
+    public function isNicedBy($user): bool {
+        return Nice::where('user_id', $user->id)->where('post_id', $this->id)->first() !==null;
+    }
 }

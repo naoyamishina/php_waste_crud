@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Nice;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,7 @@ class PostController extends Controller
         if(!empty($keyword)) {
             $query->where('money', '>=', $keyword);
         }
-        $posts = $query->with('user', 'comments', 'nices')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->withCount('nices')->with('user', 'comments', 'nices')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('post.index', compact('posts'));
     }
@@ -85,7 +87,7 @@ class PostController extends Controller
     {
         return view('post.show', [
             'post' => $post,
-            'image' => str_replace('public/', 'storage/', $post->image) // 変更
+            'image' => str_replace('public/', 'storage/', $post->image)
         ],
         compact('post'));
     }
@@ -163,12 +165,33 @@ class PostController extends Controller
     }
 
     public function mypost() {
-        $posts = \Auth::user()->posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = \Auth::user()->posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
         return view('post.mypost', compact('posts'));
     }
 
+    public function nice(Request $request){
+        $user_id = Auth::user()->id;
+        $post_id = $request->post_id; //2.投稿idの取得
+        $already_niced = Nice::where('user_id', $user_id)->where('post_id', $post_id)->first(); //3.
+
+        if (!$already_niced) { //もしこのユーザーがこの投稿にまだいいねしてなかったら
+            $nice = new Nice; //4.niceクラスのインスタンスを作成
+            $nice->post_id = $post_id; //niceインスタンスにpost_id,user_idをセット
+            $nice->user_id = $user_id;
+            $nice->save();
+        } else { //もしこのユーザーがこの投稿に既にいいねしてたらdelete
+            Nice::where('post_id', $post_id)->where('user_id', $user_id)->delete();
+        }
+        //5.この投稿の最新の総いいね数を取得
+        $post_nices_count = Post::withCount('nices')->findOrFail($post_id)->nices_count;
+        $param = [
+            'post_nices_count' => $post_nices_count,
+        ];
+        return response()->json($param); //6.JSONデータをjQueryに返す
+    }
+
     public function nice_posts() {
-        $posts = \Auth::user()->nice_posts()->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = \Auth::user()->nice_posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
         return view('post.nice_posts', compact('posts'));
     }
 

@@ -32,8 +32,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('post/mypost', [PostController::class, 'mypost'])->name('post.mypost')->middleware('auth');
-Route::post('/post/{post}/nice', [NiceController::class, 'store'])->name('nice.store')->middleware('auth');
-Route::delete('/post/{post}/unnice', [NiceController::class, 'destroy'])->name('nice.destroy')->middleware('auth');
+Route::post('/nice', [PostController::class, 'nice'])->name('post.nice')->middleware('auth');
 Route::get('/post/nices', [PostController::class, 'nice_posts'])->name('post.nice_posts')->middleware('auth');
 Route::get('/post/ranking', [PostController::class, 'ranking'])->name('post.ranking')->middleware('auth');
 Route::resource('post', PostController::class)->middleware('auth');
