@@ -34,8 +34,7 @@ class CommentController extends Controller
             'user_id'=>auth()->user()->id,
             'post_id'=>$request->post_id
         ]);
-
-        return back()->with('message', 'コメントを投稿しました');;
+        return response()->json($comment);
     }
 
     /**
