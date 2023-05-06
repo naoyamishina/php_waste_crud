@@ -151,7 +151,7 @@ class PostController extends Controller
     }
 
     public function ranking() {
-        $posts = Post::withCount('nices')->orderBy('nices_count', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = $this->postRepository->getRanking();
         return view('post.ranking', compact('posts'));
     }
 }

@@ -129,4 +129,13 @@ class PostRepository implements PostRepositoryInterface
               ->with('user', 'comments', 'nices')
               ->paginate(10);
     }
+
+    public function getRanking()
+    {
+      return $this->post
+            ->withCount('comments','nices')
+            ->orderBy('nices_count', 'desc')
+            ->with('user', 'comments', 'nices')
+            ->paginate(10);
+    }
 }
