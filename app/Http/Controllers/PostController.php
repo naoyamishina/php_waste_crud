@@ -98,40 +98,13 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        $post->title=$request->title;
-        $post->body=$request->body;
-        $post->money=$request->money;
-                
-        if(request('image')){
-            if (app()->isLocal()) {
-                // ローカル環境
-                // ローカル環境
-                $time = date("Ymdhis");
-                $image = InterventionImage::make($request->image);
-                $image->orientate();
-                $image->resize(
-                    400,
-                    500,
-                    function ($constraint) {
-                        // 縦横比を保持したままにする
-                        $constraint->aspectRatio();
-                        // 小さい画像は大きくしない
-                        $constraint->upsize();
-                    }
-                );
-                $filePath = storage_path('app/public/images');
-                $image->save($filePath.'/'.$time.'_'.Auth::user()->id.'.png');
-                $imagePath = 'storage/images/'.$time.'_'.Auth::user()->id.'.png';
-                $post->image = $imagePath;
-            } else {
-                // 本番環境
-                $image = $request->file('image');
-                $path = Storage::disk('s3')->putFile('/', $image);
-                $post->image = $path;
-            }
+        $inputs = $request->validated();
+
+        if ($request->file('image')) {
+            $inputs['image'] = $request->file('image');
         }
 
-        $post->save();
+        $this->postRepository->update($post, $inputs);
 
         return redirect()->route('post.show', $post)->with('message', '投稿を更新しました');
     }
