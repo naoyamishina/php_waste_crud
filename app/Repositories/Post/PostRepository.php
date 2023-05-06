@@ -37,11 +37,6 @@ class PostRepository implements PostRepositoryInterface
             ->paginate(9);
     }
 
-    public function getById(int $id)
-    {
-        return $this->post->findOrFail($id);
-    }
-
     public function create(array $data)
     {
         if (isset($data['image'])) {
@@ -110,6 +105,8 @@ class PostRepository implements PostRepositoryInterface
 
     public function delete(Post $post)
     {
-        return $post->delete();
+      $post->comments()->delete();
+      $post->nices()->delete();
+      return $post->delete();
     }
 }
