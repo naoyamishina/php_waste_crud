@@ -11,4 +11,5 @@ interface PostRepositoryInterface
     public function create(array $data);
     public function update(Post $post, array $data);
     public function delete(Post $post);
+    public function getMyPost();
 }

@@ -109,4 +109,14 @@ class PostRepository implements PostRepositoryInterface
       $post->nices()->delete();
       return $post->delete();
     }
+
+    public function getMyPost()
+    {
+        return $posts = \Auth::user()
+              ->posts()
+              ->withCount('comments','nices')
+              ->orderBy('created_at', 'desc')
+              ->with('user', 'comments', 'nices')
+              ->paginate(10);
+    }
 }

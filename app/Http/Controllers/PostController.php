@@ -120,7 +120,7 @@ class PostController extends Controller
     }
 
     public function mypost() {
-        $posts = \Auth::user()->posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = $this->postRepository->getMyPost();
         return view('post.mypost', compact('posts'));
     }
 
