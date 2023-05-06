@@ -68,8 +68,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $this->postRepository->getById($post->id);
         return view('post.show', [
-            'post' => $post,
             'image' => str_replace('public/', 'storage/', $post->image)
         ],
         compact('post'));

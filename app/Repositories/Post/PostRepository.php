@@ -27,6 +27,13 @@ class PostRepository implements PostRepositoryInterface
             ->paginate(10);
     }
 
+    public function getById(int $id)
+    {
+        return $this->post
+            ->findOrFail($id)
+            ->with('user', 'comments', 'nices');
+    }
+
     public function getWithSearch(int $search)
     {
         return $this->post
