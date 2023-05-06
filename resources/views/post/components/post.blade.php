@@ -26,7 +26,7 @@
                     <div class="text-sm font-semibold flex flex-row mt-3">
                         <a href="{{route('post.show', $post)}}" style="color:white;">
                             <span class="badge">
-                                コメント {{$post->comments->count()}}件
+                                コメント {{$post->comments_count}}件
                             </span>
                         </a>
                         @if($post->image)

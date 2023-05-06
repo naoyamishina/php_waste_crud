@@ -4,8 +4,10 @@ namespace App\Repositories\Post;
 
 use App\Models\Post;
 use App\Models\User;
+use InterventionImage;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -43,8 +45,31 @@ class PostRepository implements PostRepositoryInterface
     public function create(array $data)
     {
         if (isset($data['image'])) {
-            $path = Storage::disk('s3')->putFile('image', $data['image']);
-            $data['image'] = Storage::disk('s3')->url($path);
+          if (app()->isLocal()) {
+            // ローカル環境
+            $time = date("Ymdhis");
+            $image = InterventionImage::make($data['image']);
+            $image->orientate();
+            $image->resize(
+                400,
+                500,
+                function ($constraint) {
+                    // 縦横比を保持したままにする
+                    $constraint->aspectRatio();
+                    // 小さい画像は大きくしない
+                    $constraint->upsize();
+                }
+            );
+            $filePath = storage_path('app/public/images');
+            $image->save($filePath.'/'.$time.'_'.Auth::user()->id.'.png');
+            $imagePath = 'storage/images/'.$time.'_'.Auth::user()->id.'.png';
+            $data['image'] = $imagePath;
+          } else {
+              // 本番環境
+              $image = $data->file('image');
+              $path = Storage::disk('s3')->putFile('/', $image);
+              $data['image'] = $path;
+          }
         }
 
         return $this->post->create($data);
