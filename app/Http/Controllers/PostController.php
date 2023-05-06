@@ -146,7 +146,7 @@ class PostController extends Controller
     }
 
     public function nice_posts() {
-        $posts = \Auth::user()->nice_posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = $this->postRepository->getNicePost();
         return view('post.nice_posts', compact('posts'));
     }
 

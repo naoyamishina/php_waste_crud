@@ -119,4 +119,14 @@ class PostRepository implements PostRepositoryInterface
               ->with('user', 'comments', 'nices')
               ->paginate(10);
     }
+
+    public function getNicePost()
+    {
+        return $posts = \Auth::user()
+              ->nice_posts()
+              ->withCount('comments','nices')
+              ->orderBy('created_at', 'desc')
+              ->with('user', 'comments', 'nices')
+              ->paginate(10);
+    }
 }
