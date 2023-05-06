@@ -15,7 +15,6 @@ window.addEventListener('DOMContentLoaded', function () {
       fetch(url, options)
         .then(response => response.json())
         .then(data => {
-          console.log('コメントが送信されました:', data);
           // コメント一覧を更新する
           const commentList = document.getElementById('comment-list');
           const commentValidationList = document.getElementById('comment-validation');

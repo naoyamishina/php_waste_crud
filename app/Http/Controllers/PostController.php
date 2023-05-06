@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Nice;
 use App\Models\User;
+use App\Models\Comment;
+use App\Repositories\Post\PostRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +19,22 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $postRepository;
+
+    public function __construct(PostRepositoryInterface $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     public function index(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $query = Post::query();
+        $search = $request->input('search');
 
-        // もし検索フォームにキーワードが入力されたら
-        if(!empty($keyword)) {
-            $query->where('money', '>=', $keyword);
+        if ($search) {
+            $posts = $this->postRepository->getWithSearch($search);
+        } else {
+            $posts = $this->postRepository->getAll();
         }
-        $posts = $query->withCount('nices')->with('user', 'comments', 'nices')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('post.index', compact('posts'));
     }
@@ -44,39 +52,14 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $post=new Post();
-        $post->title=$request->title;
-        $post->money=$request->money;
-        $post->body=$request->body;
-        $post->user_id=auth()->user()->id;
-        if (request('image')){
-            if (app()->isLocal()) {
-                // ローカル環境
-                $time = date("Ymdhis");
-                $image = InterventionImage::make($request->image);
-                $image->orientate();
-                $image->resize(
-                    400,
-                    500,
-                    function ($constraint) {
-                        // 縦横比を保持したままにする
-                        $constraint->aspectRatio();
-                        // 小さい画像は大きくしない
-                        $constraint->upsize();
-                    }
-                );
-                $filePath = storage_path('app/public/images');
-                $image->save($filePath.'/'.$time.'_'.Auth::user()->id.'.png');
-                $imagePath = 'storage/images/'.$time.'_'.Auth::user()->id.'.png';
-                $post->image = $imagePath;
-            } else {
-                // 本番環境
-                $image = $request->file('image');
-                $path = Storage::disk('s3')->putFile('/', $image);
-                $post->image = $path;
-            }
+        $inputs = $request->validated();
+        $inputs['user_id'] = auth()->user()->id;
+
+        if ($request->file('image')) {
+            $inputs['image'] = $request->file('image');
         }
-        $post->save();
+        $this->postRepository->create($inputs);
+        
         return redirect()->route('post.index')->with('message', '投稿を作成しました');
     }
 
@@ -85,8 +68,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $this->postRepository->getById($post->id);
         return view('post.show', [
-            'post' => $post,
             'image' => str_replace('public/', 'storage/', $post->image)
         ],
         compact('post'));
@@ -115,40 +98,13 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        $post->title=$request->title;
-        $post->body=$request->body;
-        $post->money=$request->money;
-                
-        if(request('image')){
-            if (app()->isLocal()) {
-                // ローカル環境
-                // ローカル環境
-                $time = date("Ymdhis");
-                $image = InterventionImage::make($request->image);
-                $image->orientate();
-                $image->resize(
-                    400,
-                    500,
-                    function ($constraint) {
-                        // 縦横比を保持したままにする
-                        $constraint->aspectRatio();
-                        // 小さい画像は大きくしない
-                        $constraint->upsize();
-                    }
-                );
-                $filePath = storage_path('app/public/images');
-                $image->save($filePath.'/'.$time.'_'.Auth::user()->id.'.png');
-                $imagePath = 'storage/images/'.$time.'_'.Auth::user()->id.'.png';
-                $post->image = $imagePath;
-            } else {
-                // 本番環境
-                $image = $request->file('image');
-                $path = Storage::disk('s3')->putFile('/', $image);
-                $post->image = $path;
-            }
+        $inputs = $request->validated();
+
+        if ($request->file('image')) {
+            $inputs['image'] = $request->file('image');
         }
 
-        $post->save();
+        $this->postRepository->update($post, $inputs);
 
         return redirect()->route('post.show', $post)->with('message', '投稿を更新しました');
     }
@@ -159,13 +115,12 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
-        $post->comments()->delete();
-        $post->delete();
+        $this->postRepository->delete($post);
         return redirect()->route('post.index')->with('message', '投稿を削除しました');
     }
 
     public function mypost() {
-        $posts = \Auth::user()->posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = $this->postRepository->getMyPost();
         return view('post.mypost', compact('posts'));
     }
 
@@ -191,12 +146,12 @@ class PostController extends Controller
     }
 
     public function nice_posts() {
-        $posts = \Auth::user()->nice_posts()->withCount('nices')->orderBy('created_at', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = $this->postRepository->getNicePost();
         return view('post.nice_posts', compact('posts'));
     }
 
     public function ranking() {
-        $posts = Post::withCount('nices')->orderBy('nices_count', 'desc')->with('user', 'comments', 'nices')->paginate(10);
+        $posts = $this->postRepository->getRanking();
         return view('post.ranking', compact('posts'));
     }
 }

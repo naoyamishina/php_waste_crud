@@ -12,7 +12,7 @@
         <form method="GET" action="{{ route('post.index') }}">
             <div class="md:flex items-center mt-8 mb-3">
                 <div class="flex">
-                    <input type="search" class="w-auto py-2 placeholder-gray-400 border border-gray-300 rounded-md" placeholder="最小金額を入力" name="keyword" id="moneySerach">
+                    <input type="search" class="w-auto py-2 placeholder-gray-400 border border-gray-300 rounded-md" placeholder="最小金額を入力" name="search" id="moneySerach">
                     <button class="bg-gray-300 mx-4 p-2 rounded-md hover:bg-gray-500" type="submit" id="serachSubmit">検索</button>
                 </div>
                 <p id="warning-message" class="text-red-600"></p>
