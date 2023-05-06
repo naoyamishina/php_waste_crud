@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Nice;
 use App\Models\User;
+use App\Models\Comment;
+use App\Repositories\Post\PostRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +19,22 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $postRepository;
+
+    public function __construct(PostRepositoryInterface $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     public function index(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $query = Post::query();
+        $search = $request->input('search');
 
-        // もし検索フォームにキーワードが入力されたら
-        if(!empty($keyword)) {
-            $query->where('money', '>=', $keyword);
+        if ($search) {
+            $posts = $this->postRepository->getWithSearch($search);
+        } else {
+            $posts = $this->postRepository->getAll();
         }
-        $posts = $query->withCount('nices')->with('user', 'comments', 'nices')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('post.index', compact('posts'));
     }
