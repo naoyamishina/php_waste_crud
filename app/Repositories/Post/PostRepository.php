@@ -68,7 +68,7 @@ class PostRepository implements PostRepositoryInterface
             $data['image'] = $imagePath;
           } else {
               // 本番環境
-              $image = $data->file('image');
+              $image = $data['image'];
               $path = Storage::disk('s3')->putFile('/', $image);
               $data['image'] = $path;
           }
@@ -101,7 +101,7 @@ class PostRepository implements PostRepositoryInterface
           $data['image'] = $imagePath;
         } else {
             // 本番環境
-            $image = $data->file('image');
+            $image = $data['image'];
             $path = Storage::disk('s3')->putFile('/', $image);
             $data['image'] = $path;
         }
